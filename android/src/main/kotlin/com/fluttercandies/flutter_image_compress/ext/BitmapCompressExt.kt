@@ -34,8 +34,8 @@ fun Bitmap.compress(
     log("dst height = $destH")
     Bitmap.createScaledBitmap(
         this,
-        destW.toInt(),
-        destH.toInt(), true
+        minWidth,
+        minHeight, true
     ).rotate(rotate).compress(convertFormatIndexToFormat(format), quality, outputStream)
 }
 
