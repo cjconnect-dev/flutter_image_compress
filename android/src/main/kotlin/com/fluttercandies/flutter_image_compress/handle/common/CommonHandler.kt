@@ -79,8 +79,8 @@ class CommonHandler(override val type: Int) : FormatHandler {
         log("dst width = $destW")
         log("dst height = $destH")
         Bitmap.createScaledBitmap(
-            bitmap, destW.toInt(),
-            destH.toInt(),
+            bitmap, minWidth,
+            minHeight,
             true
         ).rotate(rotate).compress(bitmapFormat, quality, outputStream)
         return outputStream.toByteArray()
