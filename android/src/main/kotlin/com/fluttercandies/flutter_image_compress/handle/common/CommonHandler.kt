@@ -68,16 +68,6 @@ class CommonHandler(override val type: Int) : FormatHandler {
         }
         val bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.count(), options)
         val outputStream = ByteArrayOutputStream()
-        val w = bitmap.width.toFloat()
-        val h = bitmap.height.toFloat()
-        log("src width = $w")
-        log("src height = $h")
-        val scale = bitmap.calcScale(minWidth, minHeight)
-        log("scale = $scale")
-        val destW = w / scale
-        val destH = h / scale
-        log("dst width = $destW")
-        log("dst height = $destH")
         Bitmap.createScaledBitmap(
             bitmap, minWidth,
             minHeight,

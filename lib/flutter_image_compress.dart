@@ -45,8 +45,8 @@ class FlutterImageCompress {
   /// Compress image from [Uint8List] to [Uint8List].
   static Future<typed_data.Uint8List> compressWithList(
     typed_data.Uint8List image, {
-    int minWidth = 1920,
-    int minHeight = 1080,
+    int targetWidth = 1920,
+    int targetHeight = 1080,
     int quality = 95,
     int rotate = 0,
     int inSampleSize = 1,
@@ -63,8 +63,8 @@ class FlutterImageCompress {
     }
     final result = await _channel.invokeMethod('compressWithList', [
       image,
-      minWidth,
-      minHeight,
+      targetWidth,
+      targetHeight,
       quality,
       rotate,
       autoCorrectionAngle,
@@ -78,8 +78,8 @@ class FlutterImageCompress {
   /// Compress file of [path] to [Uint8List].
   static Future<typed_data.Uint8List?> compressWithFile(
     String path, {
-    int minWidth = 1920,
-    int minHeight = 1080,
+    int targetWidth = 1920,
+    int targetHeight = 1080,
     int inSampleSize = 1,
     int quality = 95,
     int rotate = 0,
@@ -100,8 +100,8 @@ class FlutterImageCompress {
     }
     final result = await _channel.invokeMethod('compressWithFile', [
       path,
-      minWidth,
-      minHeight,
+      targetWidth,
+      targetHeight,
       quality,
       rotate,
       autoCorrectionAngle,
@@ -117,8 +117,8 @@ class FlutterImageCompress {
   static Future<File?> compressAndGetFile(
     String path,
     String targetPath, {
-    int minWidth = 1920,
-    int minHeight = 1080,
+    int targetWidth = 1920,
+    int targetHeight = 1080,
     int inSampleSize = 1,
     int quality = 95,
     int rotate = 0,
@@ -145,8 +145,8 @@ class FlutterImageCompress {
       'compressWithFileAndGetFile',
       [
         path,
-        minWidth,
-        minHeight,
+        targetWidth,
+        targetHeight,
         quality,
         targetPath,
         rotate,
@@ -166,8 +166,8 @@ class FlutterImageCompress {
   /// From [asset] to [Uint8List]
   static Future<typed_data.Uint8List?> compressAssetImage(
     String assetName, {
-    int minWidth = 1920,
-    int minHeight = 1080,
+    int targetWidth = 1920,
+    int targetHeight = 1080,
     int quality = 95,
     int rotate = 0,
     bool autoCorrectionAngle = true,
@@ -188,8 +188,8 @@ class FlutterImageCompress {
     }
     return compressWithList(
       uint8List,
-      minHeight: minHeight,
-      minWidth: minWidth,
+      targetHeight: targetHeight,
+      targetWidth: targetWidth,
       quality: quality,
       rotate: rotate,
       autoCorrectionAngle: autoCorrectionAngle,

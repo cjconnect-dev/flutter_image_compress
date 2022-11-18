@@ -22,16 +22,6 @@ fun Bitmap.compress(
     outputStream: OutputStream,
     format: Int = 0
 ) {
-    val w = this.width.toFloat()
-    val h = this.height.toFloat()
-    log("src width = $w")
-    log("src height = $h")
-    val scale = calcScale(minWidth, minHeight)
-    log("scale = $scale")
-    val destW = w / scale
-    val destH = h / scale
-    log("dst width = $destW")
-    log("dst height = $destH")
     Bitmap.createScaledBitmap(
         this,
         minWidth,

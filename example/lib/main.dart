@@ -106,8 +106,8 @@ class _MyAppState extends State<MyApp> {
     print('testCompressFile');
     final result = await FlutterImageCompress.compressWithFile(
       file.absolute.path,
-      minWidth: 2300,
-      minHeight: 1500,
+      targetWidth: 2300,
+      targetHeight: 1500,
       quality: 94,
       rotate: 180,
     );
@@ -122,8 +122,8 @@ class _MyAppState extends State<MyApp> {
       file.absolute.path,
       targetPath,
       quality: 90,
-      minWidth: 1024,
-      minHeight: 1024,
+      targetWidth: 1024,
+      targetHeight: 1024,
       rotate: 90,
     );
     print(file.lengthSync());
@@ -135,8 +135,8 @@ class _MyAppState extends State<MyApp> {
     print('testCompressAsset');
     final list = await FlutterImageCompress.compressAssetImage(
       assetName,
-      minHeight: 1920,
-      minWidth: 1080,
+      targetHeight: 1920,
+      targetWidth: 1080,
       quality: 96,
       rotate: 135,
     );
@@ -157,8 +157,8 @@ class _MyAppState extends State<MyApp> {
   Future<typed_data.Uint8List> testComporessList(typed_data.Uint8List list) async {
     final result = await FlutterImageCompress.compressWithList(
       list,
-      minHeight: 1080,
-      minWidth: 1080,
+      targetHeight: 1080,
+      targetWidth: 1080,
       quality: 96,
       rotate: 270,
       format: CompressFormat.webp,
@@ -175,7 +175,7 @@ class _MyAppState extends State<MyApp> {
   void _compressAssetAndAutoRotate() async {
     final result = await FlutterImageCompress.compressAssetImage(
       R.IMG_AUTO_ANGLE_JPG,
-      minWidth: 1000,
+      targetWidth: 1000,
       quality: 95,
       // autoCorrectionAngle: false,
     );
@@ -188,8 +188,8 @@ class _MyAppState extends State<MyApp> {
   void _compressPngImage() async {
     final result = await FlutterImageCompress.compressAssetImage(
       R.IMG_HEADER_PNG,
-      minWidth: 300,
-      minHeight: 500,
+      targetWidth: 300,
+      targetHeight: 500,
     );
     if (result == null) return;
     safeSetState(() {
@@ -203,8 +203,8 @@ class _MyAppState extends State<MyApp> {
     );
     final result = await FlutterImageCompress.compressWithList(
       bytes,
-      minHeight: 100,
-      minWidth: 100,
+      targetHeight: 100,
+      targetWidth: 100,
       format: CompressFormat.png,
     );
     final u8list = typed_data.Uint8List.fromList(result);
@@ -222,8 +222,8 @@ class _MyAppState extends State<MyApp> {
   void _compressImageAndKeepExif() async {
     final result = await FlutterImageCompress.compressAssetImage(
       R.IMG_AUTO_ANGLE_JPG,
-      minWidth: 500,
-      minHeight: 600,
+      targetWidth: 500,
+      targetHeight: 600,
       // autoCorrectionAngle: false,
       keepExif: true,
     );
@@ -263,15 +263,14 @@ class _MyAppState extends State<MyApp> {
     print('start compress webp');
     final quality = 90;
     final tmpDir = (await getTemporaryDirectory()).path;
-    final target =
-        '$tmpDir/${DateTime.now().millisecondsSinceEpoch}-$quality.webp';
+    final target = '$tmpDir/${DateTime.now().millisecondsSinceEpoch}-$quality.webp';
     final srcPath = await getExampleFilePath();
     final result = await FlutterImageCompress.compressAndGetFile(
       srcPath,
       target,
       format: CompressFormat.webp,
-      minHeight: 800,
-      minWidth: 800,
+      targetHeight: 800,
+      targetWidth: 800,
       quality: quality,
     );
     if (result == null) return;
@@ -410,11 +409,11 @@ Future<typed_data.Uint8List> getAssetImageUint8List(String key) async {
 double calcScale({
   required double srcWidth,
   required double srcHeight,
-  required double minWidth,
-  required double minHeight,
+  required double targetWidth,
+  required double targetHeight,
 }) {
-  final scaleW = srcWidth / minWidth;
-  final scaleH = srcHeight / minHeight;
+  final scaleW = srcWidth / targetWidth;
+  final scaleH = srcHeight / targetHeight;
 
   final scale = math.max(1.0, math.min(scaleW, scaleH));
 
@@ -425,9 +424,7 @@ extension _StateExtension on State {
   /// [setState] when it's not building, then wait until next frame built.
   FutureOr<void> safeSetState(FutureOr<dynamic> Function() fn) async {
     await fn();
-    if (mounted &&
-        !context.debugDoingBuild &&
-        context.owner?.debugBuilding == false) {
+    if (mounted && !context.debugDoingBuild && context.owner?.debugBuilding == false) {
       // ignore: invalid_use_of_protected_member
       setState(() {});
     }
